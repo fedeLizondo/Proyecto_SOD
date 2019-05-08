@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 #define DEFAULT_PORT 8080
 
@@ -26,5 +27,10 @@ int main( int argc, char *argv[] ){
 	unsigned int len;
 	int cliente = accept(servidor, (void*) &direccionCliente, &len);
 	printf("Recibí una conexión en %d!!\n", cliente);
-	return 0;	
+	
+    char mensaje[100];
+    sprintf(mensaje,"%s","ESTO ES UN MENSAJE DESDE EL SERVIDOR");
+
+	write(cliente,mensaje,100);
+	return 0;		
 }
