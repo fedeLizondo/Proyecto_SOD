@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <unistd.h>
@@ -25,12 +26,19 @@ int main( int argc, char *argv[] ){
 	listen(servidor,100);
 	struct sockaddr_in direccionCliente;
 	unsigned int len;
-	int cliente = accept(servidor, (void*) &direccionCliente, &len);
+	int cliente = -1;
+	cliente = accept(servidor, (void*) &direccionCliente, &len);
+	
 	printf("Recibí una conexión en %d!!\n", cliente);
 	
-    char mensaje[100];
-    sprintf(mensaje,"%s","ESTO ES UN MENSAJE DESDE EL SERVIDOR");
+    char mensaje[1000];
+	int ok =  read(cliente,mensaje,1000);
+	printf("%s",mensaje);
 
+	
+   	//sprintf(mensaje,"%s","ESTO ES UN MENSAJE DESDE EL SERVIDOR");
 	write(cliente,mensaje,100);
+	close(cliente);
+	close(servidor);
 	return 0;		
 }
