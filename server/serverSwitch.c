@@ -1,4 +1,5 @@
-#include "Server/servidor.h"
+#include "Servidor/servidor.h"
+#include "Response/request_switch.h"
 
 #define DEFAULT_PORT 8080
 
@@ -19,10 +20,27 @@ int main(int argc, char *argv[])
 
 void *onSuccess(void *arg)
 {
+	int MAX_SIZE_SEND = 1024;
 	int FD_USER = *((int *)arg);
 	printf("%d\n", FD_USER);
-	char mensaje[] = "ES UN MENSAJE DEL SERVIDOR";
+	char mensaje[MAX_SIZE_SEND];
+	bzero(mensaje, MAX_SIZE_SEND);
+
+	if (recv(FD_USER, mensaje, sizeof(char) * MAX_SIZE_SEND, 0) > 0)
+	{
+		ptr_sockerRequest request = socketRequest_create(mensaje);
+
+		if (strcmp(request->servidorName, "FACTURACION") == 0)
+		{
+			printf("Servidor: %s\nQuery: %s", request->servidorName, request->query);
+		}
+		else
+		{
+			printf("NO ES UN SERVIDOR");
+		}
+	}
 	//write(FD_USER, mensaje, sizeof(*mensaje) );
-	send(FD_USER,mensaje,sizeof(mensaje),0);
+	printf("Enviando mensaje...\n\t%s", mensaje);
+	send(FD_USER, mensaje, sizeof(mensaje), 0);
 	return NULL;
 };
