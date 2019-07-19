@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
     char mensaje[100];
     int ok = read(id_servidor,mensaje,100);
     //bzero(mensaje,0,);
-    //sprintf(mensaje,"%s","ESTO ES UN MENSAJE");
-    printf("%s",mensaje);
+    //sprintf(mensaje,"%s","ESTO ES UN MENSAJE")ex;
+    printf("%s\n",mensaje);
     return 0;
 }
