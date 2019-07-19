@@ -20,14 +20,14 @@ int main( int argc, char *argv[] ){
 	
 	if(bind(servidor,(void* ) &direccion_servidor, sizeof(direccion_servidor)) != 0){
 		perror("Falo el bind");
+		
 		return 1;
 	}
 	
 	listen(servidor,100);
 	struct sockaddr_in direccionCliente;
 	unsigned int len;
-	int cliente = -1;
-	cliente = accept(servidor, (void*) &direccionCliente, &len);
+	int cliente = accept(servidor, (void*) &direccionCliente, &len);
 	
 	printf("Recibí una conexión en %d!!\n", cliente);
 	
@@ -35,7 +35,6 @@ int main( int argc, char *argv[] ){
 	int ok =  read(cliente,mensaje,1000);
 	printf("%s",mensaje);
 
-	
    	//sprintf(mensaje,"%s","ESTO ES UN MENSAJE DESDE EL SERVIDOR");
 	write(cliente,mensaje,100);
 	close(cliente);
