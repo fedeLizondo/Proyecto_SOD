@@ -1,0 +1,31 @@
+#Makefile
+OBJS = serverSwitch serverFireBird serverMysql serverPosgres
+CFLAGS = -g -Wall -Wextra
+LDFLAGS = -lpthread#-pthread -lpthread
+CPPFLAGS = Servidor/servidor.c
+
+all:install
+#install: $(OBJS)
+#	@echo "Done"
+#	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+install: $(OBJS)
+	@echo "Done"
+	
+serverSwitch: serverSwitch.o
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+serverFireBird: serverFireBird.o
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+serverMysql: serverMysql.o
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+serverPosgres: serverPosgres.o
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+
+%.o: %.c 
+	gcc $(CFLAGS) -c $< -o $@ 
+
+delete:
+	rm -f *.o $(OBJS)
+
+clean:
+	rm -f *.o
+	
