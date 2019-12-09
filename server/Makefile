@@ -16,7 +16,7 @@ serverSwitch: serverSwitch.o
 serverFireBird: serverFireBird.o
 	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
 serverMysql: serverMysql.o
-	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ `mysql_config --cflags --libs` 
 serverPosgres: serverPosgres.o
 	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
 
