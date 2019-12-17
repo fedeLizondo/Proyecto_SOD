@@ -9,6 +9,7 @@
 
 char *delimitatorPuntoYComa = ";";
 char *delimitatorDosPuntos = ":";
+int cantidad = 0;
 
 void *onSuccess(void *);
 
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 {
 	int port = (argc > 2) ? atoi(argv[2]) : DEFAULT_PORT;
 	char *ipAddress = (argc > 1) ? argv[1] : NULL;
-	printf("Inciando servidor en IP: %s Puerto: %d\n", (ipAddress == NULL)?"localHost":ipAddress, port);
+	printf("Inciando servidor en IP: %s Puerto: %d\n", (ipAddress == NULL) ? "localHost" : ipAddress, port);
 
 	ptr_Servidor servidor = servidor_create(ipAddress, port);
 	servidor->onSuccess = onSuccess;
@@ -27,6 +28,7 @@ int main(int argc, char *argv[])
 
 void *onSuccess(void *arg)
 {
+	printf("Ingreso el request: %d\n", ++cantidad);
 	int MAX_SIZE_SEND = 1024;
 	int MAX_SIZE_RECIVE = 4096;
 
@@ -34,6 +36,7 @@ void *onSuccess(void *arg)
 	char mensaje[MAX_SIZE_SEND];
 	char response[MAX_SIZE_RECIVE];
 	bzero(mensaje, MAX_SIZE_SEND);
+	bzero(response, MAX_SIZE_RECIVE);
 
 	if(recv(FD_USER, mensaje, sizeof(char) * MAX_SIZE_SEND, 0) > 0)
 	{
@@ -63,14 +66,25 @@ void *onSuccess(void *arg)
 			printf("%s\n","EN EL SERVIDOR DE FACTURA");
 		}
 		else if( strcmp(serverName,SERVIDOR_PERSONAL) == 0) {
-			printf("%s\n", "ENVIANDO A PERSONAL");
+			ptr_client client = client_create("127.0.0.1",8082);
+			client_run(client);
+			strcat(query,";");
+			client_send(client,query);
+			client_recive(client,response);
+			client_destroy(client);
+			send(FD_USER, response, sizeof(char) * MAX_SIZE_RECIVE, 0);
 		}
 		else if( strcmp(serverName,SERVIDOR_RECURSOS) == 0) {
-			printf("%s\n", "ENVIANDO A RECURSOS");
+			ptr_client client = client_create("127.0.0.1",8083);
+			client_run(client);
+			client_send(client,query);
+			client_recive(client,response);
+			client_destroy(client);
+			send(FD_USER, response, sizeof(char) * MAX_SIZE_RECIVE, 0);
 		}
-
 	}
 	// write(FD_USER, mensaje, sizeof(*mensaje) );
 	// send(FD_USER, mensaje, sizeof(mensaje), 0);
+	printf("TERMINANDO\n");
 	return NULL;
 };

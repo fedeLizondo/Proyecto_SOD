@@ -28,10 +28,10 @@ int main(int argc, char const *argv[])
         return EXIT_FAILURE;
     }
 
-    char mensaje[100];
-    char mensajeEnviado[] = "DB:FACTURACION;SELECT * FROM *";
+    char mensaje[4096];
+    char mensajeEnviado[] = "DB:PERSONAL;SELECT * FROM personal;";
     send(id_servidor, mensajeEnviado,sizeof(char) * sizeof(mensajeEnviado),0);
-    int ok = read(id_servidor, mensaje, 100);
+    int ok = read(id_servidor, mensaje, sizeof(char) * 4096);
     //bzero(mensaje,0,);
     //sprintf(mensaje,"%s","ESTO ES UN MENSAJE")ex;
     printf("%s\n", mensaje);

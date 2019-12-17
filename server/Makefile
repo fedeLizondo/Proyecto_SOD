@@ -2,7 +2,7 @@
 OBJS = serverSwitch serverFireBird serverMysql serverPosgres
 CFLAGS = -g -Wall -Wextra
 LDFLAGS = -lpthread#-pthread -lpthread
-CPPFLAGS = Servidor/servidor.c
+CPPFLAGS = Servidor/servidor.c Servidor/client.c
 
 all:install
 #install: $(OBJS)
@@ -18,7 +18,7 @@ serverFireBird: serverFireBird.o
 serverMysql: serverMysql.o
 	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ `mysql_config --cflags --libs` 
 serverPosgres: serverPosgres.o
-	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ -I /usr/include/postgresql -lpq
 
 %.o: %.c 
 	gcc $(CFLAGS) -c $< -o $@ 
