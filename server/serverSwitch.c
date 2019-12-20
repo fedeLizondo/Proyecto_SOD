@@ -62,8 +62,13 @@ void *onSuccess(void *arg)
 			printf("No existe el %s , no se puede enviar la query \"%s\"\n",serverName, query);
 		}
 		else if( strcmp(serverName,SERVIDOR_FACTURACION) == 0) {
-			//send(FD_USER, "ENV", sizeof(char) *  3, 0);
-			printf("%s\n","EN EL SERVIDOR DE FACTURA");
+			ptr_client client = client_create("127.0.0.1",8081);
+			client_run(client);
+			strcat(query,";");
+			client_send(client,query);
+			client_recive(client,response);
+			client_destroy(client);
+			send(FD_USER, response, sizeof(char) * MAX_SIZE_RECIVE, 0);
 		}
 		else if( strcmp(serverName,SERVIDOR_PERSONAL) == 0) {
 			ptr_client client = client_create("127.0.0.1",8082);

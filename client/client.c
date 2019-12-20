@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
     }
 
     char mensaje[4096];
-    char mensajeEnviado[] = "DB:PERSONAL;SELECT * FROM personal;";
+    char mensajeEnviado[] = "DB:FACTURACION;SELECT * FROM facturacion WHERE ID < 30;";//"DB:PERSONAL;SELECT * FROM personal;";
     send(id_servidor, mensajeEnviado,sizeof(char) * sizeof(mensajeEnviado),0);
     int ok = read(id_servidor, mensaje, sizeof(char) * 4096);
     //bzero(mensaje,0,);

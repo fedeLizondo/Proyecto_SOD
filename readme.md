@@ -41,3 +41,9 @@ CREATE TABLE personal (
   INGRESO varchar(255)
 );
 ´´´
+
+
+### Docker FireBird
+´´´
+docker run --rm --name firebase -e ISC_PASSWORD=docker -e FIREBIRD_DATABASE=facturacion -e FIREBIRD_USER=root -e FIREBIRD_PASSWORD=root -d -p 3050:3050 -v $HOME/docker/volumes/firebird:/firebird/data  jacobalberty/firebird
+´´´

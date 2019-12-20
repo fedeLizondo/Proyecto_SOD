@@ -14,7 +14,7 @@ install: $(OBJS)
 serverSwitch: serverSwitch.o
 	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
 serverFireBird: serverFireBird.o
-	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ 
+	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ -I . -L . -lfb
 serverMysql: serverMysql.o
 	gcc $(CPPFLAGS) $(LDFLAGS) $< -o $@ `mysql_config --cflags --libs` 
 serverPosgres: serverPosgres.o
